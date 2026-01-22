@@ -6,11 +6,11 @@ from collections.abc import Callable
 
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QWidget
+from qgis.PyQt.QtWidgets import QAction, QToolBar, QWidget
 from qgis.utils import iface
 
 from cgiqgispluginsandboxday.constants import PLUGIN_NAME
-from cgiqgispluginsandboxday.dock_widget import PluginDockWidget
+from cgiqgispluginsandboxday.layer_selector_widget import LayerSelectorWidget
 from cgiqgispluginsandboxday.logger import remove_logger
 
 
@@ -23,7 +23,13 @@ class Plugin:
         """Initialize the plugin."""
         self.actions: list[QAction] = []
         self.menu = Plugin.name
-        self.dock_widget: PluginDockWidget | None = None
+
+        # Dictionary to store dock widgets by name for easy expansion
+        self.dock_widgets: dict[str, QWidget] = {}
+
+        # Create plugin toolbar
+        self.toolbar: QToolBar = iface.addToolBar(Plugin.name)
+        self.toolbar.setObjectName(Plugin.name)
 
     def add_action(
         self,
@@ -80,8 +86,8 @@ class Plugin:
             action.setWhatsThis(whats_this)
 
         if add_to_toolbar:
-            # Adds plugin icon to Plugins toolbar
-            iface.addToolBarIcon(action)
+            # Adds plugin icon to plugin's own toolbar
+            self.toolbar.addAction(action)
 
         if add_to_menu:
             iface.addPluginToMenu(self.menu, action)
@@ -92,13 +98,15 @@ class Plugin:
 
     def initGui(self) -> None:  # noqa N802
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
+        # Layer Selector action
         self.add_action(
-            "",
-            text=Plugin.name,
-            callback=self.run,
+            ":/images/themes/default/mActionAddLayer.svg",
+            text="Layer Selector",
+            callback=self.toggle_layer_selector,
             parent=iface.mainWindow(),
             add_to_toolbar=True,
         )
+        # Add more actions here for additional widgets
 
     def onClosePlugin(self) -> None:  # noqa N802
         """Cleanup necessary items here when plugin dockwidget is closed."""
@@ -107,25 +115,47 @@ class Plugin:
         """Remove the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
             iface.removePluginMenu(Plugin.name, action)
-            iface.removeToolBarIcon(action)
 
-        # Clean up dock widget
-        if self.dock_widget is not None:
-            iface.removeDockWidget(self.dock_widget)
-            self.dock_widget.deleteLater()
-            self.dock_widget = None
+        # Remove toolbar
+        if self.toolbar is not None:
+            del self.toolbar
+
+        # Clean up all dock widgets
+        for widget in self.dock_widgets.values():
+            if widget is not None:
+                iface.removeDockWidget(widget)
+                widget.deleteLater()
+        self.dock_widgets.clear()
 
         remove_logger()
 
-    def run(self) -> None:
-        """Run method that opens the dock widget."""
-        if self.dock_widget is None:
+    def toggle_layer_selector(self) -> None:
+        """Toggle the Layer Selector dock widget."""
+        self._toggle_dock_widget(
+            "layer_selector",
+            lambda: LayerSelectorWidget(iface.mainWindow()),
+            Qt.RightDockWidgetArea,
+        )
+
+    def _toggle_dock_widget(
+        self,
+        widget_name: str,
+        widget_factory: Callable[[], QWidget],
+        dock_area: Qt.DockWidgetArea,
+    ) -> None:
+        """Toggle a dock widget's visibility, creating it if necessary.
+
+        :param widget_name: Unique name for the widget in the dock_widgets dict.
+        :param widget_factory: Callable that creates the widget instance.
+        :param dock_area: Qt dock area where the widget should be placed.
+        """
+        widget = self.dock_widgets.get(widget_name)
+        if widget is None:
             # Create the dock widget
-            self.dock_widget = PluginDockWidget(iface.mainWindow())
-            # Add dock widget to the right side of QGIS
-            iface.addDockWidget(Qt.RightDockWidgetArea, self.dock_widget)
-        # Toggle visibility
-        elif self.dock_widget.isVisible():
-            self.dock_widget.hide()
+            widget = widget_factory()
+            self.dock_widgets[widget_name] = widget
+            iface.addDockWidget(dock_area, widget)
+        elif widget.isVisible():
+            widget.hide()
         else:
-            self.dock_widget.show()
+            widget.show()
