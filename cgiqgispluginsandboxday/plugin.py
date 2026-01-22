@@ -31,7 +31,6 @@ class Plugin:
         if file_path:
             self.translator = QTranslator()
             self.translator.load(file_path)
-            # noinspection PyCallByClass
             QCoreApplication.installTranslator(self.translator)
         else:
             pass
