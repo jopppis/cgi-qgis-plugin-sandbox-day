@@ -4,11 +4,13 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QWidget
 from qgis.utils import iface
 
 from cgiqgispluginsandboxday.constants import PLUGIN_NAME
+from cgiqgispluginsandboxday.dock_widget import PluginDockWidget
 from cgiqgispluginsandboxday.logger import remove_logger
 
 
@@ -21,6 +23,7 @@ class Plugin:
         """Initialize the plugin."""
         self.actions: list[QAction] = []
         self.menu = Plugin.name
+        self.dock_widget: PluginDockWidget | None = None
 
     def add_action(
         self,
@@ -94,7 +97,7 @@ class Plugin:
             text=Plugin.name,
             callback=self.run,
             parent=iface.mainWindow(),
-            add_to_toolbar=False,
+            add_to_toolbar=True,
         )
 
     def onClosePlugin(self) -> None:  # noqa N802
@@ -106,8 +109,23 @@ class Plugin:
             iface.removePluginMenu(Plugin.name, action)
             iface.removeToolBarIcon(action)
 
+        # Clean up dock widget
+        if self.dock_widget is not None:
+            iface.removeDockWidget(self.dock_widget)
+            self.dock_widget.deleteLater()
+            self.dock_widget = None
+
         remove_logger()
 
     def run(self) -> None:
-        """Run method that performs all the real work."""
-        print("Hello QGIS plugin")  # noqa: T201
+        """Run method that opens the dock widget."""
+        if self.dock_widget is None:
+            # Create the dock widget
+            self.dock_widget = PluginDockWidget(iface.mainWindow())
+            # Add dock widget to the right side of QGIS
+            iface.addDockWidget(Qt.RightDockWidgetArea, self.dock_widget)
+        # Toggle visibility
+        elif self.dock_widget.isVisible():
+            self.dock_widget.hide()
+        else:
+            self.dock_widget.show()
