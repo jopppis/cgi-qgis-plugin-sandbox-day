@@ -9,6 +9,9 @@ pytest
 pytest-cov
 pytest-qgis
 
+# qgis tooling
+qgis_plugin_tools
+
 # Linting and formatting
 pre-commit
 mypy
@@ -18,3 +21,4 @@ flake8-qgis
 
 # Stubs
 PyQt5-stubs
+qgis-stubs

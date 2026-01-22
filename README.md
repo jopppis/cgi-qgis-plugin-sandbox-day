@@ -10,10 +10,19 @@
 
 ## Development
 
-Create a virtual environment activate it and install needed dependencies with the following commands:
+Create a virtual environment activate it and install needed dependencies with the following commands.
+
+On Windows run:
 ```console
 python create_qgis_venv.py
-.venv\Scripts\activate # On Linux and macOS run `source .venv\bin\activate`
+.venv\Scripts\activate
+pip install -r requirements-dev.txt
+```
+
+On Linux or Macos run:
+```console
+python create_qgis_venv.py --python-executable /Applications/QGIS-LTR.app/Contents/MacOS/bin/python3
+source .venv\bin\activate
 pip install -r requirements-dev.txt
 ```
 
@@ -36,6 +45,11 @@ New-Item -ItemType SymbolicLink -Path ${env:APPDATA}\QGIS\QGIS3\profiles\default
 On Linux
 ```console
 ln -s cgiqgispluginsandboxday/ ~/.local/share/QGIS/QGIS3/profiles/default/python/plugins/cgiqgispluginsandboxday
+```
+
+On MacOS
+```console
+ln -s $(pwd)/cgiqgispluginsandboxday/ ~/Library/Application\ Support/QGIS/QGIS3/profiles/default/python/plugins/cgiqgispluginsandboxday
 ```
 
 After that you should be able to enable the plugin in the QGIS Plugin Manager.

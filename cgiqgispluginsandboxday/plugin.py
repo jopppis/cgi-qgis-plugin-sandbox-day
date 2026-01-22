@@ -1,13 +1,18 @@
+"""Plugin setup."""
+
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 from qgis.PyQt.QtCore import QCoreApplication, QTranslator
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QWidget
 from qgis.utils import iface
 
-from cgiqgispluginsandboxday.qgis_plugin_tools.tools.custom_logging import setup_logger, teardown_logger
+from cgiqgispluginsandboxday.qgis_plugin_tools.tools.custom_logging import (
+    setup_logger,
+    teardown_logger,
+)
 from cgiqgispluginsandboxday.qgis_plugin_tools.tools.i18n import setup_translation
 from cgiqgispluginsandboxday.qgis_plugin_tools.tools.resources import plugin_name
 
@@ -18,10 +23,11 @@ class Plugin:
     name = plugin_name()
 
     def __init__(self) -> None:
+        """Initialize the plugin."""
         setup_logger(Plugin.name)
 
         # initialize locale
-        locale, file_path = setup_translation()
+        _, file_path = setup_translation()
         if file_path:
             self.translator = QTranslator()
             self.translator.load(file_path)
@@ -76,7 +82,6 @@ class Plugin:
             added to self.actions list.
         :rtype: QAction
         """
-
         icon = QIcon(icon_path)
         action = QAction(icon, text, parent)
         # noinspection PyUnresolvedReferences
@@ -111,15 +116,15 @@ class Plugin:
         )
 
     def onClosePlugin(self) -> None:  # noqa N802
-        """Cleanup necessary items here when plugin dockwidget is closed"""
+        """Cleanup necessary items here when plugin dockwidget is closed."""
 
     def unload(self) -> None:
-        """Removes the plugin menu item and icon from QGIS GUI."""
+        """Remove the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
             iface.removePluginMenu(Plugin.name, action)
             iface.removeToolBarIcon(action)
         teardown_logger(Plugin.name)
 
     def run(self) -> None:
-        """Run method that performs all the real work"""
+        """Run method that performs all the real work."""
         print("Hello QGIS plugin")  # noqa: T201

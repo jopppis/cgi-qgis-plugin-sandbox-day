@@ -1,0 +1,37 @@
+[tool.ruff]
+extend = "../pyproject.toml"
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # Pyflakes
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "I",    # isort
+    "N",    # pep8-naming
+    "C4",   # flake8-comprehensions
+    "ICN",  # flake8-import-conventions
+    "T20",  # flake8-print
+    "PYI",  # flake8-pyi
+    "PT",   # flake8-pytest-style
+    "Q",    # flake8-quotes
+    "RET",  # flake8-return
+    "TID",  # flake8-tidy-imports
+    "ERA",  # eradicate
+    "RUF",  # Ruff-specific rules
+    "D",    # Docstring
+    "PD",   # Pandas
+    "FAST", # fastapi
+    "NPY",  # numpy
+]
+ignore = [
+    "E712", # true-false-comparison, shows false positives with SQLModel
+    "E501", # line too long, formatter makes best effort to avoid long lines
+    "D100", # missing docstring in public module
+    "D103", # missing docstring in public function
+    "D104", # missing docstring in public package
+    "D301", # use r""" for regex docstrings (not compatible with click)
+    "TRY003",  # exception with a message
+]

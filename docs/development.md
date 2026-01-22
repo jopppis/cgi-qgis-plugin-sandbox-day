@@ -33,22 +33,8 @@ To get started with the development, follow these steps:
    ```shell
     C:\OSGeo4W64\bin\python-qgis.bat build.py venv
    ```
-1. **Note: This part is  only for developers that are using QGIS < 3.16.8.** If you want to use IDE for development, it is best to start it with the
-   following way on Windows:
-   ```shell
-    :: Check out the arguments with python build.py start_ide -h
-    set QGIS_DEV_IDE=<path-to-your-ide.exe>
-    set QGIS_DEV_OSGEO4W_ROOT=C:\OSGeo4W64
-    set QGIS_DEV_PREFIX_PATH=C:\OSGeo4W64\apps\qgis-ltr
-    C:\OSGeo4W64\bin\python-qgis.bat build.py start_ide
-    :: If you want to create a bat script for starting the ide, you can do it with:
-    C:\OSGeo4W64\bin\python-qgis.bat build.py start_ide --save_to_disk
-   ```
 
 Now the development environment should be all-set.
-
-If you want to edit or disable some quite strict pre-commit scripts, edit .pre-commit-config.yaml.
-For example to disable typing, remove mypy hook and flake8-annotations from the file.
 
 ## Keeping dependencies up to date
 
@@ -57,7 +43,7 @@ For example to disable typing, remove mypy hook and flake8-annotations from the 
 3. `pip-compile --upgrade requirements-dev.in`
 4. `pip install -r requirements-dev.txt` or `pip-sync requirements-dev.txt`
 
-## Adding or editing  source files
+## Adding or editing source files
 
 If you create or edit source files make sure that:
 
