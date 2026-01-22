@@ -1,0 +1,16 @@
+[general]
+name=CGI QGIS Plugin Sandbox Day
+description=
+about=
+version=0.1.0
+qgisMinimumVersion=3.16
+author=
+email=
+changelog=
+tags=
+repository=https://github.com/jopppis/cgi-qgis-plugin-sandbox-day
+tracker=https://github.com/jopppis/cgi-qgis-plugin-sandbox-day/issues
+homepage=https://github.com/jopppis/cgi-qgis-plugin-sandbox-day
+category=Plugins
+experimental=True
+deprecated=False
