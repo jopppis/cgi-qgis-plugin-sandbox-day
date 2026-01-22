@@ -27,3 +27,9 @@ This consits of two main steps:
 2. Add the widget from the file to the UI using main plugin file `plugin.py`.
 
 We also add a button to toggle the visibility of the widget to the toolbar.
+
+## Step 2: Convert the empty widget to layer selector widget
+
+We want to start doing something useful with our plugin so we make the widget to something nice. In order to look at nice maps we need some layers and it is much more fun to implement layer selector yourself than use pre-made things.
+
+When we add the elements to the UI we need to also add logic that does things when user interacts with the UI. This is usually done using signals and slots in Qt. In our case we add handlers to add new layers when user ticks checkboxes and remove layers when user unticks them or removes the layers from the layer tree.
