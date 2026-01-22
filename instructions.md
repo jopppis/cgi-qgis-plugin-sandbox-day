@@ -17,3 +17,13 @@ We start by building a plugin that lets users to pick coordinates from the map (
 You are free to start building in any way you prefer but for those that like bit more guidance, there is a git branch called `example` implements the aforementioned plugin in steps. You can check the commits for instance from https://github.com/jopppis/cgi-qgis-plugin-sandbox-day/commits/example/.
 
 Each of the commit will append instructions to this file.
+
+## Step 1: Add dock widget to UI
+
+We want to make it easy for the users to interact with our plugin so we add a nice widget to the UI.
+
+This consits of two main steps:
+1. Add `dock_widget.py` file where we define the widget and its UI.
+2. Add the widget from the file to the UI using main plugin file `plugin.py`.
+
+We also add a button to toggle the visibility of the widget to the toolbar.
