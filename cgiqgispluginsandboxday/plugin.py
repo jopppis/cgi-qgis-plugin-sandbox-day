@@ -4,37 +4,21 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-from qgis.PyQt.QtCore import QCoreApplication, QTranslator
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QWidget
 from qgis.utils import iface
 
-from cgiqgispluginsandboxday.qgis_plugin_tools.tools.custom_logging import (
-    setup_logger,
-    teardown_logger,
-)
-from cgiqgispluginsandboxday.qgis_plugin_tools.tools.i18n import setup_translation
-from cgiqgispluginsandboxday.qgis_plugin_tools.tools.resources import plugin_name
+from cgiqgispluginsandboxday.constants import PLUGIN_NAME
+from cgiqgispluginsandboxday.logger import remove_logger
 
 
 class Plugin:
     """QGIS Plugin Implementation."""
 
-    name = plugin_name()
+    name = PLUGIN_NAME
 
     def __init__(self) -> None:
         """Initialize the plugin."""
-        setup_logger(Plugin.name)
-
-        # initialize locale
-        _, file_path = setup_translation()
-        if file_path:
-            self.translator = QTranslator()
-            self.translator.load(file_path)
-            QCoreApplication.installTranslator(self.translator)
-        else:
-            pass
-
         self.actions: list[QAction] = []
         self.menu = Plugin.name
 
@@ -121,7 +105,8 @@ class Plugin:
         for action in self.actions:
             iface.removePluginMenu(Plugin.name, action)
             iface.removeToolBarIcon(action)
-        teardown_logger(Plugin.name)
+
+        remove_logger()
 
     def run(self) -> None:
         """Run method that performs all the real work."""

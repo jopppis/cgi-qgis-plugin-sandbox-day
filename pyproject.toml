@@ -6,7 +6,7 @@ authors = [
   { name="Ville Joensuu", email="ville.joensuu@iki.fi" },
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -19,12 +19,6 @@ build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 addopts = "-v"
-
-[tool.coverage.report]
-omit = ["cgiqgispluginsandboxday/qgis_plugin_tools/*"]
-
-[tool.ruff]
-exclude = ["cgiqgispluginsandboxday/qgis_plugin_tools"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["cgiqgispluginsandboxday"]
@@ -66,6 +60,7 @@ ignore = [
     "TRY003",  # exception with a message
     "ERA001",  # commented out code
     "PLR0913",  # too many arguments
+    "PLW0603",  # using global variable
 ]
 exclude = [
     ".git",
@@ -84,10 +79,6 @@ exclude = [
         "tests/",
         "__pycache__/",
 ]
-
-[[tool.mypy.overrides]]
-module = "cgiqgispluginsandboxday.qgis_plugin_tools.*"
-ignore_errors = true
 
 [[tool.mypy.overrides]]
 module = ["qgis.*", "osgeo.*"]

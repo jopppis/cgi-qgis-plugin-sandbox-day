@@ -1,16 +1,48 @@
 # CGI QGIS Plugin Sandbox Day
-![tests](https://github.com/jopppis/cgi-qgis-plugin-sandbox-day/workflows/Tests/badge.svg)
-[![codecov.io](https://codecov.io/github/jopppis/cgi-qgis-plugin-sandbox-day/coverage.svg?branch=main)](https://codecov.io/github/jopppis/cgi-qgis-plugin-sandbox-day?branch=main)
-![release](https://github.com/jopppis/cgi-qgis-plugin-sandbox-day/workflows/Release/badge.svg)
 
-[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+## Introduction
 
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+In this sandbox day we get to try QGIS plugin development and build a small
+plugin that will help to understand the QGIS plugin development process and
+provide a skeleton for future plugins.
 
-## Development
+## Useful information
 
-Create a virtual environment activate it and install needed dependencies with the following commands.
+- [QGIS Python Developer Guide](https://docs.qgis.org/3.44/en/docs/pyqgis_developer_cookbook/index.html)
+- Debugging/Development Tools -panel in QGIS
+
+## Prerequisites
+
+### Install Python
+Only required on Macos. Install e.g. by Homebrew:
+
+```bash
+brew install python@3.12
+```
+
+### Install QGIS
+
+#### Windows
+Download OSGeo4W installer from https://qgis.org/download/ and install.
+
+#### MacOS
+
+Installing might be easiest via Homebrew (use LTR version):
+
+```bash
+brew install qgis@ltr
+```
+
+You can also download from https://qgis.org/downloads/macos/ltr/qgis_ltr_final-3_40_5_20250321_160709.dmg
+
+Afterwards you might need to allow QGIS to run by going to `Settings - Privacy & Security - Security - QGIS - Allow Anyway` because Macos blocks unsigned applications and QGIS is not yet signed.
+
+### Clone this repository
+
+### Install QGIS plugin reloader
+Open QGIS and go to `Plugins` - `Manage and Install Plugins`.
+
+### Setup up virtual environment
 
 On Windows run:
 ```console
@@ -19,14 +51,39 @@ python create_qgis_venv.py
 pip install -r requirements-dev.txt
 ```
 
-On Linux or Macos run:
+On Linux run:
+```console
+python create_qgis_venv.py
+source .venv\bin\activate
+pip install -r requirements-dev.txt
+```
+
+On Macos run:
 ```console
 python create_qgis_venv.py --python-executable /Applications/QGIS-LTR.app/Contents/MacOS/bin/python3
 source .venv\bin\activate
 pip install -r requirements-dev.txt
 ```
 
-For more detailed development instructions see [development](docs/development.md).
+
+### Start AI service
+
+We connect QGIS to Segmentation AI service via a REST API. The service runs Meta's Segment Anything (SAM) model to segment images based on text prompts.
+
+```bash
+cd sam_service
+python -m venv .venv # or maybe python3
+source .venv/bin/activate # or on Windows .venv/Scripts/activate
+pip install -r requirements.txt
+fastapi dev main.py --port 8000
+```
+
+When the service is running you can access the documentation at http://localhost:8000/docs.
+
+See [sam_service/README.md](sam_service/README.md) for more information.
+
+
+## Development
 
 ### Testing the plugin on QGIS
 
@@ -54,13 +111,14 @@ ln -s $(pwd)/cgiqgispluginsandboxday/ ~/Library/Application\ Support/QGIS/QGIS3/
 
 After that you should be able to enable the plugin in the QGIS Plugin Manager.
 
-### VsCode setup
+## Not covered in this excercise
 
-On VS Code use the workspace [cgi-qgis-plugin-sandbox-day.code-workspace](cgi-qgis-plugin-sandbox-day.code-workspace).
-The workspace contains all the settings and extensions needed for development.
+We go over the basics of the plugin development but do not cover many important topics in production grade plugins, including but not limited to:
 
-Select the Python interpreter with Command Palette (Ctrl+Shift+P). Select `Python: Select Interpreter` and choose
-the one with the path `.venv\Scripts\python.exe`.
+- Translations
+- Testing
+- Packaging & Deployment
+- Backend services
 
 ## License
 This plugin is distributed under the terms of the [GNU General Public License, version 3](https://www.gnu.org/licenses/gpl-3.0.html) license.

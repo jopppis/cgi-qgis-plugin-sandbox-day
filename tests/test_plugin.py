@@ -1,5 +1,5 @@
-from cgiqgispluginsandboxday.qgis_plugin_tools.tools.resources import plugin_name
+from cgiqgispluginsandboxday.constants import PLUGIN_NAME
 
 
 def test_plugin_name():
-    assert plugin_name() == "CGIQGISPluginSandboxDay"
+    assert PLUGIN_NAME == "CGI QGIS Plugin Sandbox Day"

@@ -9,9 +9,6 @@ pytest
 pytest-cov
 pytest-qgis
 
-# qgis tooling
-qgis_plugin_tools
-
 # Linting and formatting
 pre-commit
 mypy
