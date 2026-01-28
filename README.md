@@ -128,7 +128,8 @@ PIP_REQUIRE_VIRTUALENV=false /Applications/QGIS-LTR.app/Contents/MacOS/bin/pytho
 
 On Windows run:
 ```console
-C:\Users\<username>\AppData\Local\Programs\OSGeo4W\bin\python-qgis-ltr.bat -m pip install debugpy
+C:\Users\<username>\AppData\Local\Programs\OSGeo4W\OSGeo4W.bat
+pip install debugpy
 ```
 
 ## Not covered in this excercise
