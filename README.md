@@ -15,6 +15,10 @@ provide a skeleton for future plugins.
 
 ## Prerequisites
 
+### Install Python on Macos
+
+On Macos make sure you have some version of python installed. You can check this by running `python --version`. If not, install it e.g. via Homebrew: `brew install python@3.12`.
+
 ### Install QGIS
 
 #### Windows
@@ -43,7 +47,9 @@ git clone https://github.com/jopppis/cgi-qgis-plugin-sandbox-day.git
 ```
 
 ### Install QGIS plugin reloader
-Open QGIS and go to `Plugins` - `Manage and Install Plugins`.
+Open QGIS and go to `Plugins` - `Manage and Install Plugins` - `All` and check `Plugin Reloader`.
+
+Plugin reloader makes it easy to reload plugin on QGIS when you update the code on disk.
 
 ### Add NAVICI api key to QGIS
 
