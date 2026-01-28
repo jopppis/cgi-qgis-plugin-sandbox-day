@@ -119,6 +119,7 @@ We go over the basics of the plugin development but do not cover many important 
 - Testing
 - Packaging & Deployment
 - Backend services
+- UI design tools
 
 ## License
 This plugin is distributed under the terms of the [GNU General Public License, version 3](https://www.gnu.org/licenses/gpl-3.0.html) license.
