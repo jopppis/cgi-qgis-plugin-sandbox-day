@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from qgis.core import QgsProject, QgsRasterLayer
+from qgis.core import QgsProject, QgsRasterLayer, QgsVectorLayer
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtGui import QCloseEvent
 from qgis.PyQt.QtWidgets import (
@@ -20,16 +20,25 @@ AVAILABLE_LAYERS = [
         "name": "OpenStreetMap",
         "url": "type=xyz&url=https://tile.openstreetmap.org/{z}/{x}/{y}.png",
         "provider": "wms",
+        "type": "raster",
     },
     {
         "name": "Google Satellite",
         "url": "type=xyz&url=https://mt1.google.com/vt/lyrs%3Ds%26x%3D{x}%26y%3D{y}%26z%3D{z}",
         "provider": "wms",
+        "type": "raster",
     },
     {
         "name": "Google Terrain",
         "url": "type=xyz&url=https://mt1.google.com/vt/lyrs%3Dp%26x%3D{x}%26y%3D{y}%26z%3D{z}",
         "provider": "wms",
+        "type": "raster",
+    },
+    {
+        "name": "CGI Offices",
+        "url": "https://raw.githubusercontent.com/jopppis/cgi-office-locations/main/offices-finland.geojson",
+        "provider": "ogr",
+        "type": "vector",
     },
 ]
 
@@ -82,9 +91,15 @@ class LayerSelectorWidget(QDockWidget):
             existing_layers = QgsProject.instance().mapLayersByName(layer_name)
             if not existing_layers:
                 # Add the layer
-                layer = QgsRasterLayer(
-                    layer_info["url"], layer_name, layer_info["provider"]
-                )
+                if layer_info.get("type") == "vector":
+                    layer = QgsVectorLayer(
+                        layer_info["url"], layer_name, layer_info["provider"]
+                    )
+                else:
+                    layer = QgsRasterLayer(
+                        layer_info["url"], layer_name, layer_info["provider"]
+                    )
+
                 if layer.isValid():
                     QgsProject.instance().addMapLayer(layer)
         else:  # Qt.Unchecked

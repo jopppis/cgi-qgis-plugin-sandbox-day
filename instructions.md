@@ -33,3 +33,9 @@ We also add a button to toggle the visibility of the widget to the toolbar.
 We want to start doing something useful with our plugin so we make the widget to something nice. In order to look at nice maps we need some layers and it is much more fun to implement layer selector yourself than use pre-made things.
 
 When we add the elements to the UI we need to also add logic that does things when user interacts with the UI. This is usually done using signals and slots in Qt. In our case we add handlers to add new layers when user ticks checkboxes and remove layers when user unticks them or removes the layers from the layer tree.
+
+## Step 3: Add company propaganda to the mix
+
+In case you wonder how far away is some company offices, we should add them to the map so that we can get the route to them later on. I scraped the company offices in Finland and put them up in https://raw.githubusercontent.com/jopppis/cgi-office-locations/main/offices-finland.geojson. The GeoJSON contains the locations in ETRS-TM35FIN (EPSG:3067) coordinate reference system. We need to modify layer loading a little since this information is in vector format while the existing layers were raster layers.
+
+This should had actually been a some more fun GIS service like OGC API features but I did not have time to implement it so we go with GeoJSON.
