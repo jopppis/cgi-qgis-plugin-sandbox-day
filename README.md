@@ -36,6 +36,12 @@ Afterwards you might need to allow QGIS to run by going to `Settings - Privacy &
 
 ### Clone this repository
 
+Clone the repository to somewhere on your computer. I.e. run
+
+```console
+git clone https://github.com/jopppis/cgi-qgis-plugin-sandbox-day.git
+```
+
 ### Install QGIS plugin reloader
 Open QGIS and go to `Plugins` - `Manage and Install Plugins`.
 
