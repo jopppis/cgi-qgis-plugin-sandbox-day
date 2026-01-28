@@ -3,7 +3,7 @@ name = "cgi-qgis-plugins-sandbox-day"
 version = "0.0.1"
 description = "CGI QGIS Plugins Sandbox Day"
 authors = [
-  { name="Ville Joensuu", email="ville.joensuu@iki.fi" },
+  { name="Ville Joensuu", email="ville.joensuu@cgi.com" },
 ]
 readme = "README.md"
 requires-python = ">=3.9"

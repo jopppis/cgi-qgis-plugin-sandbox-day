@@ -21,7 +21,7 @@ def _get_interpreter_path() -> str:
     /Applications/QGIS.app/Contents/MacOS/bin/python3).
     """
     if sys.platform == "darwin":
-        return str(Path(sys.executable).parent / "bin" / "python3")
+        return str(Path(sys.executable).parent / "python3")
 
     return sys.executable
 

@@ -85,7 +85,7 @@ See [sam_service/README.md](sam_service/README.md) for more information.
 
 ## Development
 
-### Testing the plugin on QGIS
+### Add the plugin on QGIS
 
 A symbolic link / directory junction should be made to the directory containing the installed plugins pointing to the dev plugin package.
 
@@ -110,6 +110,20 @@ ln -s $(pwd)/cgiqgispluginsandboxday/ ~/Library/Application\ Support/QGIS/QGIS3/
 ```
 
 After that you should be able to enable the plugin in the QGIS Plugin Manager.
+
+### Debugging
+
+The project includes `launch.json` file which can be used to debug the plugin in Visual Studio Code.
+
+In order to use the debugger, you need to enable the debugging in QGIS by going to `Preferences - System - Environment` and adding `QGIS_PLUGIN_USE_DEBUGGER=debugpy` to the environment variables (you can use e.g. Overwrite method in Apply).
+
+After restarting QGIS you should be able to start debugging from Visual Studio Code `Run and Debug` panel but take care to pick the configuration matching you OS.
+
+You might need to install debugpy to the python installation by running:
+```console
+PIP_REQUIRE_VIRTUALENV=false /Applications/QGIS-LTR.app/Contents/MacOS/bin/python3 -m pip install debugpy
+```
+on the python installation you are using for QGIS.
 
 ## Not covered in this excercise
 
