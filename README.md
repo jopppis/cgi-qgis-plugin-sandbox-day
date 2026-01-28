@@ -42,6 +42,10 @@ Afterwards you might need to allow QGIS to run by going to `Settings - Privacy &
 ### Install QGIS plugin reloader
 Open QGIS and go to `Plugins` - `Manage and Install Plugins`.
 
+### Add NAVICI api key to QGIS
+
+In order to use the Navici APIs we need API key. For this sandbox day you will be given an API key that you should configure in QGIS by going to `Preferences - System - Environment` and adding `NAVICI_API_KEY=<API_KEY>` to the environment variables (you can use e.g. Overwrite method in Apply).
+
 ### Setup up virtual environment
 
 On Windows run:
