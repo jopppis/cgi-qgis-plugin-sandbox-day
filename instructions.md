@@ -49,3 +49,11 @@ Here we need to bit of work to make sure the API calls are done right and that t
 ## Step 5: Add possibility to select points from the map
 
 Since we are building a GIS thingy we want to be able to interact with the map. Here we add the possibility to select points from the map and use those as routing points. To maximize Navici API usage we will not just use the coordinates from the map but we will also do reverese geocoding to get the addresses of the points. Again you can find some information on Navici APIs from `navici_apit_v1.md` file. And again we need to take care with the API calls and responses.
+
+## Step 6: Add routing functionality
+
+Finally we want to use the points picked from map or addresses to perform routing. Again we use Navici APIs for this task.
+
+## Step 7: Sky is your limit
+
+Now that you are familiar with the QGIS plugin development you should continue building. If you have any needs or ideas you should try to implement them. We can also think together what might be interesting things to build.

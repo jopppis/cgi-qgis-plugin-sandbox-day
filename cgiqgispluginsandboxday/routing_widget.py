@@ -9,9 +9,14 @@ from typing import Optional
 from qgis.core import (
     QgsCoordinateReferenceSystem,
     QgsCoordinateTransform,
+    QgsFeature,
+    QgsJsonUtils,
+    QgsLineSymbol,
     QgsNetworkAccessManager,
     QgsPointXY,
     QgsProject,
+    QgsSingleSymbolRenderer,
+    QgsVectorLayer,
 )
 from qgis.gui import QgsMapToolEmitPoint
 from qgis.PyQt.QtCore import QUrl, QUrlQuery
@@ -80,6 +85,11 @@ class RoutingWidget(QDockWidget):
         self.get_coords_btn = QPushButton("Get coordinates")
         self.get_coords_btn.clicked.connect(self.geocode_addresses)
         self.main_layout.addWidget(self.get_coords_btn)
+
+        # Calculate Route Button
+        self.calc_route_btn = QPushButton("Calculate Route")
+        self.calc_route_btn.clicked.connect(self.fetch_route)
+        self.main_layout.addWidget(self.calc_route_btn)
 
         # Status/Log Output
         self.main_layout.addWidget(QLabel("Status:"))
@@ -284,6 +294,7 @@ class RoutingWidget(QDockWidget):
                             self.dest_coords_label.setText(f"Coordinates: {coord_str}")
 
                         self.status_text.setText("")
+
                 else:
                     self.status_text.setText(
                         f"{label}: No results found (empty features)."
@@ -295,3 +306,97 @@ class RoutingWidget(QDockWidget):
             self.status_text.setText(f"{label}: Failed to decode JSON response.")
         except Exception as e:
             self.status_text.setText(f"{label} Exception: {e!s}")
+
+    def fetch_route(self) -> None:
+        """Fetch the route from Navici API."""
+        if not self.origin_coords or not self.dest_coords:
+            self.status_text.setText(
+                "Error: Origin or Destination coordinates missing."
+            )
+            return
+
+        api_key = os.environ.get("NAVICI_API_KEY", "")
+        if not api_key:
+            self.status_text.setText("Error: API Key missing.")
+            return
+
+        self.status_text.setText("Routing...")
+
+        base_url = "https://mapservices.navici.com/routing/v1/route"
+        query = QUrlQuery()
+
+        # Origin
+        query.addQueryItem("x", str(self.origin_coords.x()))
+        query.addQueryItem("y", str(self.origin_coords.y()))
+
+        # Destination
+        query.addQueryItem("x", str(self.dest_coords.x()))
+        query.addQueryItem("y", str(self.dest_coords.y()))
+
+        query.addQueryItem("from", "EPSG:3067")
+        query.addQueryItem("to", "EPSG:3067")
+        query.addQueryItem("apikey", api_key)
+        query.addQueryItem("debug", "yes")
+
+        url = QUrl(base_url)
+        url.setQuery(query)
+
+        request = QNetworkRequest(url)
+        reply = QgsNetworkAccessManager.instance().get(request)
+        reply.finished.connect(lambda: self._handle_route_response(reply))
+
+    def _handle_route_response(self, reply: QNetworkReply) -> None:
+        """Handle the routing API response."""
+        if reply.error() != QNetworkReply.NoError:
+            self.status_text.setText(f"Routing Error: {reply.errorString()}")
+            return
+
+        try:
+            content = reply.readAll().data()
+            data = json.loads(content)
+
+            # Create a temporary vector layer
+            layer = QgsVectorLayer("LineString?crs=EPSG:3067", "Navici Route", "memory")
+            if not layer.isValid():
+                self.status_text.setText("Error creating layer.")
+                return
+
+            prov = layer.dataProvider()
+
+            # The API returns a FeatureCollection, we can iterate and add features
+            # Or use raw geojson if QGIS supports loading it directly from string?
+            # Easiest is to save to temp file or parse manualy.
+            # With "memory", we manually add features.
+
+            if "features" in data:
+                features = []
+                for f_data in data["features"]:
+                    # We only care about geometry for now
+                    if "geometry" in f_data:
+                        # QgsGeometry.fromGeoJson handles the geometry part
+                        geom_json = json.dumps(f_data["geometry"])
+                        geom = QgsJsonUtils.geometryFromGeoJson(geom_json)
+                        feat = QgsFeature()
+                        feat.setGeometry(geom)
+                        features.append(feat)
+
+                prov.addFeatures(features)
+                layer.updateExtents()
+
+                # Style the layer
+                symbol = QgsLineSymbol.createSimple(
+                    {"line_style": "solid", "color": "magenta", "line_width": "1.0"}
+                )
+                layer.setRenderer(QgsSingleSymbolRenderer(symbol))
+
+                QgsProject.instance().addMapLayer(layer)
+                iface.mapCanvas().zoomToFeatureIds(layer, layer.allFeatureIds())
+
+                self.status_text.setText("Route found and added to map.")
+            else:
+                self.status_text.setText("No route found in response.")
+
+        except json.JSONDecodeError:
+            self.status_text.setText("Routing: Failed to decode JSON.")
+        except Exception as e:
+            self.status_text.setText(f"Routing Exception: {e}")
