@@ -39,3 +39,9 @@ When we add the elements to the UI we need to also add logic that does things wh
 In case you wonder how far away is some company offices, we should add them to the map so that we can get the route to them later on. I scraped the company offices in Finland and put them up in https://raw.githubusercontent.com/jopppis/cgi-office-locations/main/offices-finland.geojson. The GeoJSON contains the locations in ETRS-TM35FIN (EPSG:3067) coordinate reference system. We need to modify layer loading a little since this information is in vector format while the existing layers were raster layers.
 
 This should had actually been a some more fun GIS service like OGC API features but I did not have time to implement it so we go with GeoJSON.
+
+## Step 4: Add routing widget with basic geocoding functionality
+
+Now we have the data on map and we can start building the routing part. We start by adding a new widget to the UI that will in time contain the routing functionality. As a stepping stone for the routing we add a geocoding to convert addresses to coordinates. This is done using CGI Navici service. You can find some information on Navici APIs from `navici_apit_v1.md` file.
+
+Here we need to bit of work to make sure the API calls are done right and that the responses are parsed correctly.

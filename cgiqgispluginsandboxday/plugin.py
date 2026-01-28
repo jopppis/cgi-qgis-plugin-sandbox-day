@@ -12,6 +12,7 @@ from qgis.utils import iface
 from cgiqgispluginsandboxday.constants import PLUGIN_NAME
 from cgiqgispluginsandboxday.layer_selector_widget import LayerSelectorWidget
 from cgiqgispluginsandboxday.logger import get_logger, remove_logger
+from cgiqgispluginsandboxday.routing_widget import RoutingWidget
 
 logger = get_logger()
 
@@ -108,7 +109,15 @@ class Plugin:
             parent=iface.mainWindow(),
             add_to_toolbar=True,
         )
-        # Add more actions here for additional widgets
+
+        # Routing Widget action
+        self.add_action(
+            ":/images/themes/default/mIconLineLayer.svg",
+            text="Routing",
+            callback=self.toggle_routing_widget,
+            parent=iface.mainWindow(),
+            add_to_toolbar=True,
+        )
 
     def onClosePlugin(self) -> None:  # noqa N802
         """Cleanup necessary items here when plugin dockwidget is closed."""
@@ -136,6 +145,14 @@ class Plugin:
         self._toggle_dock_widget(
             "layer_selector",
             lambda: LayerSelectorWidget(iface.mainWindow()),
+            Qt.RightDockWidgetArea,
+        )
+
+    def toggle_routing_widget(self) -> None:
+        """Toggle the Routing dock widget."""
+        self._toggle_dock_widget(
+            "routing",
+            lambda: RoutingWidget(iface.mainWindow()),
             Qt.RightDockWidgetArea,
         )
 
