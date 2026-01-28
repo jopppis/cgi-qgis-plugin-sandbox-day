@@ -119,11 +119,17 @@ In order to use the debugger, you need to enable the debugging in QGIS by going 
 
 After restarting QGIS you should be able to start debugging from Visual Studio Code `Run and Debug` panel but take care to pick the configuration matching you OS.
 
-You might need to install debugpy to the python installation by running:
+You will likely need to install debugpy to the python installation by running one of the following depending on your OS.
+
+On Macos run:
 ```console
 PIP_REQUIRE_VIRTUALENV=false /Applications/QGIS-LTR.app/Contents/MacOS/bin/python3 -m pip install debugpy
 ```
-on the python installation you are using for QGIS.
+
+On Windows run:
+```console
+C:\Users\<username>\AppData\Local\Programs\OSGeo4W\bin\python-qgis-ltr.bat -m pip install debugpy
+```
 
 ## Not covered in this excercise
 
