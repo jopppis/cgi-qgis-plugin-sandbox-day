@@ -25,6 +25,8 @@ brew install python@3.12
 #### Windows
 Download OSGeo4W installer from https://qgis.org/download/ and install.
 
+Use express install method and select QGIS LTR and GDAL.
+
 #### MacOS
 
 Installing might be easiest via Homebrew (use LTR version):
