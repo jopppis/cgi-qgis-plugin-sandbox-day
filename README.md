@@ -9,6 +9,8 @@ provide a skeleton for future plugins.
 ## Useful information
 
 - [QGIS Python Developer Guide](https://docs.qgis.org/3.44/en/docs/pyqgis_developer_cookbook/index.html)
+- [QGIS Python API Documentation](https://qgis.org/pyqgis/3.40/)
+- [Qt Documentation](https://doc.qt.io/archives/qt-5.15/reference-overview.html)
 - Debugging/Development Tools -panel in QGIS
 
 ## Prerequisites
