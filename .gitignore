@@ -2,7 +2,6 @@ cgi-qgis-plugin-sandbox-day/i18n
 venv/
 .venv/
 start_ide.bat
-.vscode
 */.pytest_cache
 __pycache__
 .mypy_cache
