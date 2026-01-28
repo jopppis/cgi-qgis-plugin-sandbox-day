@@ -65,24 +65,6 @@ source .venv\bin\activate
 pip install -r requirements-dev.txt
 ```
 
-
-### Start AI service
-
-We connect QGIS to Segmentation AI service via a REST API. The service runs Meta's Segment Anything (SAM) model to segment images based on text prompts.
-
-```bash
-cd sam_service
-python -m venv .venv # or maybe python3
-source .venv/bin/activate # or on Windows .venv/Scripts/activate
-pip install -r requirements.txt
-fastapi dev main.py --port 8000
-```
-
-When the service is running you can access the documentation at http://localhost:8000/docs.
-
-See [sam_service/README.md](sam_service/README.md) for more information.
-
-
 ## Development
 
 ### Add the plugin on QGIS
