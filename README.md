@@ -13,13 +13,6 @@ provide a skeleton for future plugins.
 
 ## Prerequisites
 
-### Install Python
-Only required on Macos. Install e.g. by Homebrew:
-
-```bash
-brew install python@3.12
-```
-
 ### Install QGIS
 
 #### Windows
@@ -52,7 +45,11 @@ In order to use the Navici APIs we need API key. For this sandbox day you will b
 
 On Windows run:
 ```console
-python create_qgis_venv.py
+C:\Users\<username>\AppData\Local\Programs\OSGeo4W\bin\python-qgis-ltr.bat create_qgis_venv.py
+```
+Pick the installed OSGeo4W python version if available, and if not select Custom and enter `C:\Users\<username>\AppData\Local\Programs\OSGeo4W\apps\qgis-ltr`.
+
+```console
 .venv\Scripts\activate
 pip install -r requirements-dev.txt
 ```
@@ -79,6 +76,7 @@ A symbolic link / directory junction should be made to the directory containing 
 
 On Windows Command promt
 ```console
+mkdir %AppData%\QGIS\QGIS3\profiles\default\python\plugins
 mklink /J %AppData%\QGIS\QGIS3\profiles\default\python\plugins\cgiqgispluginsandboxday .\cgiqgispluginsandboxday
 ```
 
