@@ -45,3 +45,7 @@ This should had actually been a some more fun GIS service like OGC API features 
 Now we have the data on map and we can start building the routing part. We start by adding a new widget to the UI that will in time contain the routing functionality. As a stepping stone for the routing we add a geocoding to convert addresses to coordinates. This is done using CGI Navici service. You can find some information on Navici APIs from `navici_apit_v1.md` file.
 
 Here we need to bit of work to make sure the API calls are done right and that the responses are parsed correctly.
+
+## Step 5: Add possibility to select points from the map
+
+Since we are building a GIS thingy we want to be able to interact with the map. Here we add the possibility to select points from the map and use those as routing points. To maximize Navici API usage we will not just use the coordinates from the map but we will also do reverese geocoding to get the addresses of the points. Again you can find some information on Navici APIs from `navici_apit_v1.md` file. And again we need to take care with the API calls and responses.
