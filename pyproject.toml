@@ -59,8 +59,9 @@ ignore = [
     "D301", # use r""" for regex docstrings (not compatible with click)
     "TRY003",  # exception with a message
     "ERA001",  # commented out code
-    "PLR0913",  # too many arguments
-    "PLW0603",  # using global variable
+    "PLR0913", # too many arguments
+    "PLW0603", # using global variable
+    "UP045",   # use X | None instead of Optional
 ]
 exclude = [
     ".git",
