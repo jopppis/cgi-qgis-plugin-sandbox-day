@@ -9,7 +9,9 @@ from qgis.PyQt.QtWidgets import QAction, QWidget
 from qgis.utils import iface
 
 from cgiqgispluginsandboxday.constants import PLUGIN_NAME
-from cgiqgispluginsandboxday.logger import remove_logger
+from cgiqgispluginsandboxday.logger import get_logger, remove_logger
+
+logger = get_logger()
 
 
 class Plugin:
@@ -110,4 +112,4 @@ class Plugin:
 
     def run(self) -> None:
         """Run method that performs all the real work."""
-        print("Hello QGIS plugin")  # noqa: T201
+        logger.info("Heipä hei parahin QGIS-hiekkalaatikkoilija")
