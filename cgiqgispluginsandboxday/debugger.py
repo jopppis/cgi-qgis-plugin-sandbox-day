@@ -19,9 +19,20 @@ def _get_interpreter_path() -> str:
     Alternatively the path can be fixed by setting PYTHONEXECUTABLE env variable
     in the QGIS settings to the correct path (e.g
     /Applications/QGIS.app/Contents/MacOS/bin/python3).
+
+    Different QGIS versions (and likely install methods) end up with different
+    paths, so we try a few common ones.œ
     """
     if sys.platform == "darwin":
-        return str(Path(sys.executable).parent / "python3")
+        paths = (
+            Path(sys.executable).parent / "python",
+            Path(sys.executable).parent / "python3",
+            Path(sys.executable).parent / "bin" / "python",
+            Path(sys.executable).parent / "bin" / "python3",
+        )
+        for path_to_try in paths:
+            if path_to_try.is_file():
+                return str(path_to_try)
 
     return sys.executable
 
