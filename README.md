@@ -145,6 +145,11 @@ We go over the basics of the plugin development but do not cover many important 
 ## Esimerkkiplugineja
 
 - Essi
+- PELE QGIS plugin
+
+## Sandbox day
+
+Follow the instructions in the `instructions.md`.
 
 ## License
 This plugin is distributed under the terms of the [GNU General Public License, version 3](https://www.gnu.org/licenses/gpl-3.0.html) license.
