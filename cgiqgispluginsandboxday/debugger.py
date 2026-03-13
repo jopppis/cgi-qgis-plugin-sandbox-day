@@ -34,7 +34,11 @@ def _get_interpreter_path() -> str:
             if path_to_try.is_file():
                 return str(path_to_try)
 
-    return sys.executable
+        return sys.executable
+
+    # On windows sys.executable returns something that is not really the python interpreter
+    # Use python3 instead, hopefully this works on WSL as well
+    return "python3"
 
 
 def setup_debugger() -> None:
